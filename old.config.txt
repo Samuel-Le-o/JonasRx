@@ -1,0 +1,36 @@
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+  ],
+  theme: {
+    extend: {
+      colors: {
+        primary: {
+          DEFAULT: '#0066FF',
+          light: '#EAF4FF',
+        },
+        navy: '#0B1F44',
+        success: '#16A34A',
+        warning: '#F59E0B',
+        error: '#DC2626',
+        studio: {
+          dark: '#111827',
+          gray: '#6B7280',
+          border: '#E5E7EB',
+          bg: '#F8FAFC'
+        }
+      },
+      fontFamily: {
+        sans: ['Inter', 'sans-serif'],
+      },
+      borderRadius: {
+        'card': '20px',
+        'button': '12px',
+        'input': '12px',
+      }
+    },
+  },
+  plugins: [],
+}

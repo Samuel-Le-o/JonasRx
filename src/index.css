@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+/* Define the GoodRx-Style JonasRx Theme Extensions directly for v4 */
+@theme {
+  --color-primary: #0066FF;
+  --color-primary-light: #EAF4FF;
+  --color-navy: #0B1F44;
+  --color-success: #16A34A;
+  --color-warning: #F59E0B;
+  --color-error: #DC2626;
+  
+  --font-sans: "Inter", sans-serif;
+  
+  --radius-card: 20px;
+  --radius-button: 12px;
+  --radius-input: 12px;
+}
+
+/* Custom platform layout utility animations */
+@utility animate-fadeIn {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
