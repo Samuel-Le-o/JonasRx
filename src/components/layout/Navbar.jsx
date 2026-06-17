@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { X, ChevronRight, HelpCircle, Sparkles, Pill, Stethoscope, User, Search, MapPin } from 'lucide-react';
-import { MOCK_DRUGS, MOCK_LOCATIONS } from '../../data/mockDrugs'; // Adjust this import path to match your file tree
+import { MOCK_DRUGS, MOCK_LOCATIONS } from '../../data/mockDrugs';
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -29,7 +29,15 @@ export default function Navbar() {
     { name: 'Companion', path: '/companion', isNew: true },
   ];
 
-  // Filters drugs based on search query string
+  // Popular search items configuration to mimic reference image patterns
+  const POPULAR_SEARCH_KEYWORDS = [
+    { name: 'Foundayo™' },
+    { name: 'Wegovy' },
+    { name: 'Tadalafil (Cialis)' },
+    { name: 'Sildenafil (Viagra)' },
+    { name: 'Atorvastatin' }
+  ];
+
   const filteredDrugs = MOCK_DRUGS?.filter(d => 
     d.name.toLowerCase().includes(query.toLowerCase()) || 
     d.generic.toLowerCase().includes(query.toLowerCase())
@@ -47,7 +55,6 @@ export default function Navbar() {
     setShowDrugDropdown(false);
   };
 
-  // Close dropdown contexts cleanly if user clicks outside container boundaries
   useEffect(() => {
     function handleClickOutside(event) {
       if (profileRef.current && !profileRef.current.contains(event.target)) {
@@ -66,7 +73,7 @@ export default function Navbar() {
 
   return (
     <>
-      {/* 1. TOP UTILITY STRIP (Hidden on mobile screens entirely) */}
+      {/* 1. TOP UTILITY STRIP */}
       <div className="bg-[#F9F9FB] border-b border-slate-200/80 py-1.5 px-6 hidden lg:block text-left">
         <div className="max-w-[1280px] mx-auto flex items-center justify-between text-[11px] font-semibold text-slate-500">
           <div className="flex items-center gap-1.5">
@@ -85,13 +92,13 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* 2. MAIN HEADER BLOCK WITH EMBEDDED EXTENSION LAYER */}
+      {/* 2. MAIN HEADER BLOCK */}
       <header className="bg-white border-b border-slate-200 sticky top-0 z-50 text-left select-none">
         
         {/* Core Navigation Layer */}
         <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between relative">
           
-          {/* Logo Branding Platform Element */}
+          {/* Logo Branding */}
           <div className="flex items-center gap-8">
             <div 
               onClick={() => navigate('/')} 
@@ -105,7 +112,7 @@ export default function Navbar() {
               </span>
             </div>
 
-            {/* Desktop Center Links (Hidden on mobile phone viewports) */}
+            {/* Desktop Center Links */}
             <nav className="hidden lg:flex items-center gap-6 h-16">
               {navLinks.slice(1).map((link) => {
                 const isActive = location.pathname === link.path && link.path !== '/';
@@ -125,10 +132,8 @@ export default function Navbar() {
             </nav>
           </div>
 
-          {/* Right-Aligned Control Matrix Actions */}
+          {/* Right Controls */}
           <div className="flex items-center gap-2 sm:gap-4 relative">
-            
-            {/* Promo CTA Action Badge (Hidden on mobile phones) */}
             <button 
               onClick={() => navigate('/telehealth')}
               className="hidden sm:flex items-center gap-1.5 px-4 py-2 rounded-full bg-primary hover:bg-blue-600 text-white font-black text-xs uppercase tracking-wider shadow-sm transition-all cursor-pointer"
@@ -136,7 +141,6 @@ export default function Navbar() {
               <Sparkles size={12} className="fill-white/20" /> Get weight loss treatment
             </button>
 
-            {/* Desktop-Only Log In Button */}
             <button 
               onClick={() => navigate('/login')}
               className="hidden lg:block text-[13px] font-bold text-slate-700 hover:text-slate-900 cursor-pointer px-2"
@@ -144,7 +148,7 @@ export default function Navbar() {
               Log in
             </button>
 
-            {/* PROFILE MENU ICON - Responsive Layout Viewport Hooks */}
+            {/* Profile Action Wrapper */}
             <div ref={profileRef} className="block lg:hidden relative">
               <button
                 onClick={() => {
@@ -159,9 +163,9 @@ export default function Navbar() {
                 <User size={22} className="stroke-[2.2]" />
               </button>
 
-              {/* FLOATING MOBILE PROFILE POPOVER DROPDOWN */}
+              {/* Profile Dropdown */}
               {isProfileOpen && (
-                <div className="absolute top-[130%] right-[-10px] w-[calc(100vw-32px)] sm:w-80 bg-white border border-slate-200 shadow-2xl rounded-2xl p-6 z-50 text-center animate-fadeIn space-y-5">
+                <div className="absolute top-[130%] right-[-10px] w-[calc(100vw-32px)] sm:w-80 bg-white border border-slate-200 shadow-2xl rounded-2xl p-6 z-50 text-center space-y-5">
                   <div className="space-y-2">
                     <span className="text-[13px] font-medium text-slate-500 block">New to JonasRx?</span>
                     <button
@@ -181,20 +185,11 @@ export default function Navbar() {
                       Log in
                     </button>
                   </div>
-
-                  <div className="pt-3 border-t border-slate-100">
-                    <button
-                      onClick={() => handleNavClick('/login')}
-                      className="text-xs font-bold text-slate-900 underline hover:text-primary transition-colors cursor-pointer"
-                    >
-                      I'm a healthcare professional
-                    </button>
-                  </div>
                 </div>
               )}
             </div>
 
-            {/* THREE-LINE TRADITIONAL HAMBURGER LINK */}
+            {/* Hamburger Button */}
             <button
               onClick={() => {
                 setIsMenuOpen(true);
@@ -210,15 +205,13 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Global Embedded Search Panel Extension Row */}
-        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 pb-4">
+        {/* Global Embedded Search Panel Extension Layer */}
+        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 pb-5">
           <div className="bg-white rounded-full border border-slate-300 shadow-sm hover:border-slate-400 focus-within:border-black focus-within:ring-1 focus-within:ring-black flex items-center p-1.5 transition-all w-full relative">
             
             {/* Drug Lookup Input */}
             <div ref={drugRef} className="flex-1 relative flex items-center pl-3 sm:pl-4">
               <Search className="text-slate-700 shrink-0 mr-2" size={20} />
-              
-              {/* Responsive Placeholder Inputs */}
               <input 
                 type="text"
                 value={query}
@@ -236,7 +229,7 @@ export default function Navbar() {
                 className="w-full py-2.5 text-base font-medium text-slate-900 placeholder-slate-500 bg-transparent focus:outline-none hidden md:block"
               />
               
-              {/* Suggestion Dropdown Box */}
+              {/* Drug Suggestion Dropdown */}
               {showDrugDropdown && filteredDrugs.length > 0 && (
                 <div className="absolute left-0 right-0 top-[125%] bg-white border border-slate-200 rounded-2xl shadow-xl z-50 max-h-64 overflow-y-auto p-2 mx-1">
                   <div className="text-[10px] uppercase tracking-wider font-bold text-slate-400 p-2">Medications Found</div>
@@ -257,7 +250,6 @@ export default function Navbar() {
               )}
             </div>
 
-            {/* Separator Pipe */}
             <div className="hidden md:block h-8 w-[1px] bg-slate-200 mx-2"></div>
 
             {/* Geographic Filter Selection Area */}
@@ -286,7 +278,6 @@ export default function Navbar() {
               )}
             </div>
 
-            {/* Start Saving Core Action Button */}
             <button 
               onClick={() => handleSearchSubmit()}
               className="bg-black hover:bg-slate-800 text-white font-bold text-sm px-5 sm:px-6 py-2.5 sm:py-3 rounded-full flex items-center gap-1.5 transition-all shrink-0 cursor-pointer"
@@ -295,6 +286,27 @@ export default function Navbar() {
               <span>Start saving</span>
             </button>
           </div>
+
+          {/* UPDATED: Horizontal Scroll Carousel Row without Header on Mobile */}
+          <div className="mt-4 px-4 md:px-2 flex items-center justify-start md:justify-center gap-x-3 overflow-x-auto flex-nowrap whitespace-nowrap text-xs text-slate-800 font-medium w-full scrollbar-none [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+            <span className="font-bold text-slate-900 shrink-0 hidden md:inline">
+              Popular searches:
+            </span>
+            {POPULAR_SEARCH_KEYWORDS.map((item, idx) => (
+              <button
+                key={idx}
+                onClick={() => {
+                  const sanitizedName = item.name.replace(/[™®]/g, '');
+                  setQuery(sanitizedName);
+                  handleSearchSubmit(sanitizedName);
+                }}
+                className="hover:text-black transition-colors cursor-pointer border-b border-dashed border-slate-400 hover:border-transparent py-0.5 shrink-0"
+              >
+                {item.name}
+              </button>
+            ))}
+          </div>
+
         </div>
 
       </header>
@@ -302,51 +314,36 @@ export default function Navbar() {
       {/* 3. MOBILE HAMBURGER MENU DRAWER */}
       {isMenuOpen && (
         <div className="fixed inset-0 z-50 text-left animate-fadeIn">
-          <div 
-            className="absolute inset-0 bg-black/20 backdrop-blur-xs transition-opacity"
-            onClick={() => setIsMenuOpen(false)}
-          />
-          
-          <div className="absolute top-0 right-0 bottom-0 w-full max-w-[340px] bg-white shadow-2xl p-6 flex flex-col justify-between overflow-y-auto z-10 animate-slideInRight">
+          <div className="absolute inset-0 bg-black/20 backdrop-blur-xs" onClick={() => setIsMenuOpen(false)} />
+          <div className="absolute top-0 right-0 bottom-0 w-full max-w-[340px] bg-white shadow-2xl p-6 flex flex-col justify-between overflow-y-auto z-10">
             <div className="space-y-6">
-              
               <div className="flex items-center justify-between pb-2">
                 <span className="text-base sm:text-lg font-bold text-slate-900 tracking-tight">
                   Welcome to Jonas<span className="text-primary">Rx</span>
                 </span>
-                <button 
-                  onClick={() => setIsMenuOpen(false)}
-                  className="p-1 rounded-full hover:bg-slate-100 text-slate-900 cursor-pointer transition-colors"
-                >
+                <button onClick={() => setIsMenuOpen(false)} className="p-1 rounded-full hover:bg-slate-100 text-slate-900">
                   <X size={22} className="stroke-[2.5]" />
                 </button>
               </div>
 
-              {/* EFFECTIVE WEIGHT LOSS SPOTLIGHT COMPONENT CARD */}
-              <div 
-                onClick={() => handleNavClick('/telehealth')}
-                className="p-3 rounded-xl bg-gradient-to-r from-blue-50 via-pink-50/40 to-white border border-primary/10 flex items-center justify-between cursor-pointer group transition-all hover:border-primary/30"
-              >
+              <div onClick={() => handleNavClick('/telehealth')} className="p-3 rounded-xl bg-gradient-to-r from-blue-50 via-pink-50/40 to-white border border-primary/10 flex items-center justify-between cursor-pointer group">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-lg bg-white shadow-xs border border-slate-100 flex items-center justify-center text-primary shrink-0">
                     <Pill size={18} className="rotate-45" />
                   </div>
-                  <span className="text-[13px] font-bold text-slate-900 tracking-tight leading-snug">
-                    Effective weight loss treatment
-                  </span>
+                  <span className="text-[13px] font-bold text-slate-900 tracking-tight">Effective weight loss treatment</span>
                 </div>
-                <div className="w-6 h-6 rounded-full bg-slate-900 flex items-center justify-center text-white shrink-0 group-hover:translate-x-0.5 transition-transform">
+                <div className="w-6 h-6 rounded-full bg-slate-900 flex items-center justify-center text-white shrink-0">
                   <ChevronRight size={14} className="stroke-[3]" />
                 </div>
               </div>
 
-              {/* EXPANDED DIRECTORY NAVIGATION LINKS */}
               <div className="space-y-1 pt-2">
                 {navLinks.map((link) => (
                   <button
                     key={link.name}
                     onClick={() => handleNavClick(link.path)}
-                    className="w-full flex items-center justify-between py-3.5 px-3 rounded-lg hover:bg-slate-50 font-bold text-slate-800 text-[13px] tracking-tight transition-all text-left cursor-pointer group"
+                    className="w-full flex items-center justify-between py-3.5 px-3 rounded-lg hover:bg-slate-50 font-bold text-slate-800 text-[13px] text-left group"
                   >
                     <span className="flex items-center gap-3">
                       {link.name === 'Home' && <Pill size={16} className="text-slate-400" />}
@@ -356,23 +353,11 @@ export default function Navbar() {
                       {link.name === 'Companion' && <Sparkles size={16} className="text-slate-400" />}
                       <span>{link.name}</span>
                     </span>
-                    <ChevronRight size={16} className="text-slate-400 group-hover:text-slate-600 transition-colors" />
+                    <ChevronRight size={16} className="text-slate-400" />
                   </button>
                 ))}
               </div>
-
             </div>
-
-            {/* BASE INFRASTRUCTURE LINKS */}
-            <div className="pt-6 border-t border-slate-100 space-y-3 text-[12px] text-slate-500 font-semibold">
-              <button onClick={() => handleNavClick('/articles')} className="block hover:text-slate-900 transition-colors cursor-pointer text-left w-full">
-                How JonasRx works
-              </button>
-              <button onClick={() => handleNavClick('/articles')} className="block hover:text-slate-900 transition-colors cursor-pointer text-left w-full">
-                Health conditions
-              </button>
-            </div>
-
           </div>
         </div>
       )}
