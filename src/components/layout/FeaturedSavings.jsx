@@ -1,12 +1,28 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Pill, ArrowUpRight, CheckCircle2 } from 'lucide-react';
+import { ArrowUpRight, CheckCircle2 } from 'lucide-react';
 import { MOCK_DRUGS } from '../../data/mockDrugs';
+
+// 1. Import your local drug graphic assets cleanly at the top
+import amoxicillinImg from '../../assets/amoxicillinImg.png';
+import atorvastatinImg from '../../assets/atorvastatinImg.png';
+import metforminImg from '../../assets/metforminImg.png';
+import lisinoprilImg from '../../assets/lisinoprilImg.png';
+import albuterolImg from '../../assets/albuterolImg.png';
+
+// 2. Map local image imports to your database entries based on names/IDs
+const DRUG_IMAGE_MAP = {
+  'Amoxicillin': amoxicillinImg,
+  'Atorvastatin': atorvastatinImg,
+  'Metformin': metforminImg,
+  'Lisinopril': lisinoprilImg,
+  'Albuterol': albuterolImg,
+};
 
 export default function FeaturedSavings() {
   const navigate = useNavigate();
 
-  // Pick out popular items from our mock database to populate cards
+  // Pick out popular items from our database to populate cards
   const featuredMeds = MOCK_DRUGS.filter(d => d.popular);
 
   const handleCardClick = (drugName) => {
@@ -37,32 +53,40 @@ export default function FeaturedSavings() {
           </button>
         </div>
 
-        {/* High-Density Card Matrix Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+        {/* High-Density Card Matrix Grid (5 Columns on Desktop) */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
           {featuredMeds.map((med) => {
             // Calculate discount percentages dynamically
             const savingPercent = Math.round(((med.averagePrice - med.lowestPrice) / med.averagePrice) * 100);
+            
+            // Fallback to a default image if a medication doesn't match the map key
+            const medImage = DRUG_IMAGE_MAP[med.name] || 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=300&q=80';
 
             return (
               <div 
                 key={med.id}
                 onClick={() => handleCardClick(med.name)}
-                className="bg-white border border-slate-200 p-5 rounded-card shadow-xs hover:shadow-xl hover:border-primary/30 transition-all duration-300 flex flex-col justify-between group cursor-pointer relative overflow-hidden"
+                className="bg-white border border-slate-200 p-5 rounded-2xl shadow-xs hover:shadow-xl hover:border-primary/30 transition-all duration-300 flex flex-col justify-between group cursor-pointer relative overflow-hidden"
               >
                 {/* Dynamic Corner Percentage Savings Stamp */}
-                <div className="absolute top-0 right-0 bg-success/10 text-success text-[10px] font-black px-2.5 py-1 rounded-bl-xl font-mono">
+                <div className="absolute top-0 right-0 bg-emerald-50 text-emerald-600 text-[10px] font-black px-2.5 py-1 rounded-bl-xl font-mono z-10">
                   -{savingPercent}%
                 </div>
 
                 <div>
-                  {/* Miniature Pill Icon Header */}
-                  <div className="w-9 h-9 rounded-lg bg-primary-light text-primary flex items-center justify-center mb-4 border border-primary/10">
-                    <Pill size={16} />
+                  {/* Fixed-Height Centered Product Image Window */}
+                  <div className="w-full h-32 flex items-center justify-center mb-4 bg-slate-50 rounded-xl overflow-hidden p-4 relative">
+                    <img 
+                      src={medImage} 
+                      alt={med.name}
+                      className="max-h-full max-w-full object-contain group-hover:scale-108 transition-transform duration-300"
+                      loading="lazy"
+                    />
                   </div>
 
                   {/* Nomenclature Text Block */}
                   <div className="space-y-1 mb-6">
-                    <h4 className="font-bold text-navy text-base tracking-tight group-hover:text-primary transition-colors">
+                    <h4 className="font-bold text-navy text-base tracking-tight group-hover:text-primary transition-colors truncate">
                       {med.name}
                     </h4>
                     <p className="text-slate-400 text-[11px] font-semibold tracking-wide uppercase truncate">
@@ -86,11 +110,13 @@ export default function FeaturedSavings() {
                     <span className="text-lg font-mono font-black text-primary">${med.lowestPrice.toFixed(2)}</span>
                   </div>
 
-                  {/* Micro Conversion CTA Button element wrapper */}
-                  <div className="w-full py-2 bg-slate-50 group-hover:bg-primary group-hover:text-white text-navy font-bold text-[11px] uppercase tracking-wider text-center rounded-button border border-slate-200/60 group-hover:border-primary transition-all duration-200 flex items-center justify-center gap-1">
-                    Get Coupon <CheckCircle2 size={12} className="opacity-0 group-hover:opacity-100 transition-opacity" />
+                  {/* Micro Conversion CTA Button element */}
+                  <div className="w-full py-2 bg-slate-50 group-hover:bg-primary group-hover:text-white text-navy font-bold text-[11px] uppercase tracking-wider text-center rounded-lg border border-slate-200/60 group-hover:border-primary transition-all duration-200 flex items-center justify-center gap-1">
+                    <span>Get Coupon</span> 
+                    <CheckCircle2 size={12} className="opacity-0 group-hover:opacity-100 transition-opacity" />
                   </div>
                 </div>
+
               </div>
             );
           })}

@@ -46,3 +46,37 @@ export const MOCK_TESTIMONIALS = [
   { id: 'u2', name: 'Ama A.', location: 'Pokuase, Greater Accra', text: 'As someone without premium coverage, out-of-pocket bills were stressful. JonasRx cut my chronic medication costs completely in half.', drug: 'Metformin' },
   { id: 'u3', name: 'David O.', location: 'East Legon, Accra', text: 'The telehealth portal connected me with a licensed provider in 15 minutes. Got my prescription transmitted to my local counter effortlessly.', service: 'Telehealth' }
 ];
+
+export const POPULAR_SEARCH_SUGGESTIONS = [
+  { name: 'Foundayo (orforglipron)', type: 'Weight Loss', path: '/search?drug=Foundayo' },
+  { name: 'Zepbound (tirzepatide)', type: 'Diabetes / Obesity', path: '/search?drug=Zepbound' },
+  { name: 'Wegovy (semaglutide)', type: 'Weight Management', path: '/search?drug=Wegovy' },
+  { name: 'Metformin', type: 'Type 2 Diabetes', path: '/search?drug=Metformin' },
+];
+
+export const GLP1_MEDICATIONS = [
+  {
+    name: 'Foundayo™',
+    type: 'orforglipron',
+    label: 'WEIGHT LOSS TREATMENT',
+    form: 'Tablets',
+    price: '149',
+    originalPrice: '320',
+  },
+  {
+    name: 'Zepbound®',
+    type: 'KwikPen and others',
+    label: 'SAVE ON GLP-1 MEDICATION',
+    form: 'Injection',
+    price: '299',
+    originalPrice: '550',
+  },
+  {
+    name: 'Wegovy®',
+    type: 'Tablet, pen, and HD pen',
+    label: 'GOODRX COMPANION',
+    form: 'Oral/Injectable',
+    price: '149',
+    originalPrice: '410',
+  }
+];

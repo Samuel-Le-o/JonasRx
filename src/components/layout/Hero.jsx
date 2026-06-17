@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { Search, MapPin, Pill, ArrowRight, Sparkles, ShieldCheck } from 'lucide-react';
+import { Search, MapPin, ArrowRight } from 'lucide-react';
 import { MOCK_DRUGS, MOCK_LOCATIONS } from '../../data/mockDrugs';
 
 export default function Hero() {
@@ -14,7 +13,6 @@ export default function Hero() {
   const drugRef = useRef(null);
   const locRef = useRef(null);
 
-  // Filter lists based on interactive inputs
   const filteredDrugs = MOCK_DRUGS.filter(d => 
     d.name.toLowerCase().includes(query.toLowerCase()) || 
     d.generic.toLowerCase().includes(query.toLowerCase())
@@ -35,167 +33,154 @@ export default function Hero() {
   };
 
   return (
-    <section className="bg-gradient-to-b from-primary-light/40 via-white to-white py-20 lg:py-28 overflow-hidden font-sans text-left">
-      <div className="max-w-[1280px] mx-auto px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+    <section className="bg-[#F9F8F4] pt-6 pb-14 font-sans text-left">
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Left Informational Core Input Content Section */}
-        <div className="lg:col-span-7 space-y-6 z-10">
-          {/* <div className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 text-primary px-4 py-1.5 rounded-full text-xs font-bold tracking-wide uppercase">
-            <Sparkles size={12} /> Smart Healthcare Search Platform
-          </div> */}
-          
-          <h1 className="text-4xl sm:text-5xl lg:text-[54px] font-bold text-navy leading-[1.1] font-serif tracking-tight">
-            Compare Prescription Prices & <span className="text-primary font-sans font-extrabold">Save Up to 80%</span>
-          </h1>
-          <p className="text-slate-600 text-base sm:text-lg max-w-xl font-medium leading-relaxed">
-            Stop overpaying for retail medications. Instantly query thousands of verified pricing structures and match your prescriptions with localized savings instantly.
-          </p>
-
-          {/* Core Structured GoodRx-Style Dual Action Search Bar Grid */}
-          <div className="bg-white p-3 rounded-card shadow-2xl shadow-navy/5 border border-slate-200 max-w-2xl grid grid-cols-1 md:grid-cols-12 gap-2 relative">
-            
-            {/* Input Element Area 1: Drug Match Selection */}
-            <div ref={drugRef} className="md:col-span-6 relative flex items-center border-b md:border-b-0 md:border-r border-slate-100 pb-2 md:pb-0 md:pr-2">
-              <Pill className="text-slate-400 ml-2 shrink-0" size={18} />
-              <input 
-                type="text"
-                value={query}
-                onChange={(e) => { setQuery(e.target.value); setShowDrugDropdown(true); }}
-                onFocus={() => setShowDrugDropdown(true)}
-                placeholder="Enter drug name (e.g., Lipitor...)"
-                className="w-full pl-3 pr-2 py-2 text-sm font-semibold text-navy placeholder-slate-400 focus:outline-none"
-              />
-              
-              {/* Auto-Suggestion Drug Dropdown Menu */}
-              {showDrugDropdown && (
-                <div className="absolute left-0 right-0 top-[115%] bg-white border border-slate-200 rounded-xl shadow-2xl z-30 max-h-60 overflow-y-auto p-2">
-                  <div className="text-[10px] uppercase tracking-wider font-bold text-slate-400 p-2">Medications Found</div>
-                  {filteredDrugs.map((drug) => (
-                    <button
-                      key={drug.id}
-                      onClick={() => { setQuery(drug.name); setShowDrugDropdown(false); handleSearchSubmit(drug.name); }}
-                      className="w-full text-left p-2.5 hover:bg-slate-50 rounded-lg flex items-center justify-between text-xs transition-colors cursor-pointer"
-                    >
-                      <div>
-                        <span className="font-bold text-navy block">{drug.name}</span>
-                        <span className="text-slate-400 text-[11px]">Generic: {drug.generic}</span>
-                      </div>
-                      <span className="font-mono bg-success/10 text-success text-[10px] font-bold px-2 py-1 rounded-md">From ${drug.lowestPrice.toFixed(2)}</span>
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            {/* Input Element Area 2: Geographic Area Filter selection */}
-            <div ref={locRef} className="md:col-span-4 relative flex items-center pl-1">
-              <MapPin className="text-primary shrink-0" size={18} />
-              <input 
-                type="text"
-                readOnly
-                value={location}
-                onClick={() => setShowLocDropdown(!showLocDropdown)}
-                className="w-full pl-2 pr-2 py-2 text-sm font-bold text-slate-700 cursor-pointer focus:outline-none"
-              />
-              
-              {/* Location List Drawer Option Cards */}
-              {showLocDropdown && (
-                <div className="absolute left-0 right-0 top-[115%] bg-white border border-slate-200 rounded-xl shadow-2xl z-30 p-2 space-y-1">
-                  {MOCK_LOCATIONS.map((loc, lIdx) => (
-                    <button
-                      key={lIdx}
-                      onClick={() => { setLocation(loc); setShowLocDropdown(false); }}
-                      className="w-full text-left px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-primary-light rounded-lg hover:text-primary transition-all cursor-pointer"
-                    >
-                      {loc}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            {/* Call To Action Execution Button */}
-            <button 
-              onClick={() => handleSearchSubmit()}
-              className="md:col-span-2 w-full bg-primary hover:bg-blue-600 text-white font-bold text-xs uppercase tracking-wider rounded-button py-3 flex items-center justify-center gap-1.5 transition-all shadow-md shadow-primary/20 cursor-pointer"
-            >
-              Find Prices
-            </button>
-          </div>
-
-          <div className="flex items-center gap-6 text-xs font-semibold text-slate-500 pt-2">
-            <span className="flex items-center gap-1.5"><ShieldCheck size={16} className="text-success" /> Completely Free Coupons</span>
-            <span className="flex items-center gap-1.5"><ShieldCheck size={16} className="text-success" /> No Commitments Required</span>
-          </div>
+        {/* Top Mini Header Disclaimer */}
+        <div className="flex justify-end text-[11px] text-slate-700 font-medium mb-4">
+          <span>JonasRx is NOT insurance</span>
         </div>
 
-        {/* Right Side Visual Panel: Mobile App Frame + Floaters */}
-        <div className="lg:col-span-5 relative flex justify-center items-center h-[450px]">
+        
+
+        {/* Section Headline Title */}
+        <h2 className="text-[28px] sm:text-3xl font-extrabold text-slate-900 tracking-tight mb-5 px-1 md:px-0">
+          New and now
+        </h2>
+
+        {/* Triple Column Promotional Row: Horizontal Carousel on Mobile, Desktop Grid */}
+        <div className="flex overflow-x-auto pb-4 gap-4 snap-x snap-mandatory scrollbar-none md:grid md:grid-cols-3 md:overflow-x-visible md:pb-0">
           
-          {/* Subtle Dynamic Geometric Backdrop Ring */}
-          <div className="absolute w-[360px] h-[360px] rounded-full bg-primary/5 border border-primary/10 animate-pulse"></div>
-
-          {/* Main Simulated Phone Canvas Element */}
-          <div className="w-[240px] h-[440px] bg-navy rounded-[40px] border-4 border-slate-800 shadow-2xl relative overflow-hidden flex flex-col justify-between p-4 text-white">
-            <div className="w-24 h-4 bg-slate-800 rounded-b-xl mx-auto absolute top-0 left-1/2 -translate-x-1/2"></div>
-            
-            {/* Mock Header Interface Area */}
-            <div className="pt-4 flex justify-between items-center text-[9px] font-mono opacity-60">
-              <span>09:41 AM</span>
-              <span>JonasRx Mobile</span>
+          {/* Card 1: Weight Loss Treatment Promo */}
+          <div className="min-w-[85vw] sm:min-w-[340px] md:min-w-0 snap-center bg-gradient-to-br from-[#005B7F] to-[#0183B7] rounded-2xl p-6 text-white flex flex-col justify-between min-h-[240px] relative overflow-hidden shadow-xs">
+            <div>
+              <span className="block text-[10px] font-black tracking-wider uppercase opacity-85 mb-3">
+                WEIGHT LOSS TREATMENT
+              </span>
+              <h3 className="text-xl font-extrabold leading-tight max-w-[210px] tracking-tight">
+                Need a GLP-1 prescription for weight loss?
+              </h3>
+              <p className="text-[13px] opacity-90 mt-2 max-w-[230px] leading-snug">
+                Get unlimited online care and access to low-cost brand-name GLP-1s.
+              </p>
             </div>
-
-            {/* Inner Dashboard Layout Shell Graphics */}
-            <div className="space-y-3 flex-1 pt-6 text-left">
-              <div className="h-6 w-2/3 bg-white/10 rounded-md"></div>
-              <div className="h-12 w-full bg-white/5 border border-white/10 rounded-xl p-2 flex items-center gap-2">
-                <div className="w-4 h-4 rounded-full bg-primary"></div>
-                <div className="h-2 w-1/2 bg-white/20 rounded"></div>
+            
+            <div className="mt-6 flex items-end justify-between z-10">
+              <button 
+                onClick={() => navigate('/online-care')}
+                className="bg-black text-white font-bold text-xs px-4 py-2.5 rounded-full hover:bg-slate-900 transition-colors flex items-center gap-1.5"
+              >
+                <span>Get started</span>
+                <ArrowRight size={14} />
+              </button>
+              
+              {/* Floating Pricing Badge Graphic Component */}
+              <div className="absolute right-5 bottom-5 w-16 h-16 bg-[#FFE600] text-black rounded-full flex flex-col items-center justify-center shadow-md transform rotate-6 border border-white/10">
+                <span className="text-[13px] font-black leading-none">$39</span>
+                <span className="text-[8px] font-bold uppercase tracking-tighter mt-0.5">per month</span>
               </div>
-              <div className="space-y-1.5 pt-4">
-                <div className="h-10 w-full bg-success/20 border border-success/40 rounded-xl p-2 flex justify-between items-center">
-                  <span className="text-[10px] font-bold">Amoxicillin Card</span>
-                  <span className="text-xs font-mono font-black text-success">$4.20</span>
+            </div>
+          </div>
+
+          {/* Card 2: Save on GLP-1 Medication Pricing Grid */}
+          <div className="min-w-[85vw] sm:min-w-[340px] md:min-w-0 snap-center bg-white border border-slate-200 rounded-2xl flex flex-col justify-between min-h-[240px] shadow-xs overflow-hidden">
+            <div className="p-5 flex-1 flex flex-col justify-between">
+              <span className="block text-[10px] font-black tracking-wider text-slate-500 uppercase mb-4">
+                SAVE ON GLP-1 MEDICATION
+              </span>
+              
+              <div className="space-y-4 flex-1 flex flex-col justify-center">
+                {/* Row 1: Foundayo */}
+                <div className="flex items-center justify-between border-b border-slate-100 pb-3 cursor-pointer group" onClick={() => handleSearchSubmit('Foundayo')}>
+                  <div className="flex items-center gap-3">
+                    <div className="w-7 h-7 rounded-full bg-[#E5F2F7] flex items-center justify-center text-[#0173A5] text-[11px] font-black">F</div>
+                    <div>
+                      <span className="text-sm font-bold text-slate-900 block group-hover:text-sky-700 transition-colors">Foundayo™</span>
+                    </div>
+                  </div>
+                  <div className="text-right flex items-center gap-2">
+                    <div>
+                      <span className="text-[10px] text-slate-400 block font-medium leading-none">As low as</span>
+                      <span className="text-base font-black text-slate-900 leading-tight">$149</span>
+                    </div>
+                    <ArrowRight size={16} className="text-slate-400 group-hover:translate-x-0.5 transition-transform" />
+                  </div>
                 </div>
-                <div className="h-10 w-full bg-white/5 border border-white/5 rounded-xl p-2 flex justify-between items-center">
-                  <span className="text-[10px] font-medium opacity-80">Retail Cost</span>
-                  <span className="text-xs font-mono line-through opacity-40">$28.00</span>
+
+                {/* Row 2: Zepbound */}
+                <div className="flex items-center justify-between border-b border-slate-100 pb-3 cursor-pointer group" onClick={() => handleSearchSubmit('Zepbound')}>
+                  <div className="flex items-center gap-3">
+                    <div className="w-7 h-7 rounded-full bg-[#FBF2E6] flex items-center justify-center text-[#B26E12] text-[11px] font-black">Z</div>
+                    <div>
+                      <span className="text-sm font-bold text-slate-900 block group-hover:text-sky-700 transition-colors">Zepbound®</span>
+                      <span className="text-[10px] text-slate-400 block font-medium">KwikPen and others</span>
+                    </div>
+                  </div>
+                  <div className="text-right flex items-center gap-2">
+                    <div>
+                      <span className="text-[10px] text-slate-400 block font-medium leading-none">As low as</span>
+                      <span className="text-base font-black text-slate-900 leading-tight">$299</span>
+                    </div>
+                    <ArrowRight size={16} className="text-slate-400 group-hover:translate-x-0.5 transition-transform" />
+                  </div>
+                </div>
+
+                {/* Row 3: Wegovy */}
+                <div className="flex items-center justify-between cursor-pointer group" onClick={() => handleSearchSubmit('Wegovy')}>
+                  <div className="flex items-center gap-3">
+                    <div className="w-7 h-7 rounded-full bg-[#EFEBF4] flex items-center justify-center text-[#663A99] text-[11px] font-black">W</div>
+                    <div>
+                      <span className="text-sm font-bold text-slate-900 block group-hover:text-sky-700 transition-colors">Wegovy®</span>
+                      <span className="text-[10px] text-slate-400 block font-medium">Tablet, pen, and HD pen</span>
+                    </div>
+                  </div>
+                  <div className="text-right flex items-center gap-2">
+                    <div>
+                      <span className="text-[10px] text-slate-400 block font-medium leading-none">As low as</span>
+                      <span className="text-base font-black text-slate-900 leading-tight">$149</span>
+                    </div>
+                    <ArrowRight size={16} className="text-slate-400 group-hover:translate-x-0.5 transition-transform" />
+                  </div>
                 </div>
               </div>
             </div>
-
-            <div className="text-[9px] text-center bg-primary py-2 rounded-xl font-bold tracking-wide cursor-pointer hover:bg-blue-600 transition-colors">
-              Scan Card At Checkout
-            </div>
           </div>
 
-          {/* Floating Premium Price Card Badge 1 */}
-          <motion.div 
-            animate={{ y: [0, -12, 0] }}
-            transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-            className="absolute top-12 left-0 md:-left-8 bg-white border border-slate-100 shadow-2xl p-3.5 rounded-2xl flex items-center gap-3 w-48 text-left"
-          >
-            <div className="w-9 h-9 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0"><Pill size={18} /></div>
+          {/* Card 3: JonasRx Companion Application Promo Panel */}
+          <div className="min-w-[85vw] sm:min-w-[340px] md:min-w-0 snap-center bg-white border border-slate-200 rounded-2xl p-5 flex flex-col justify-between min-h-[240px] shadow-xs relative overflow-hidden">
             <div>
-              <span className="block text-[11px] font-bold text-navy">Lipitor Savings</span>
-              <span className="block font-mono text-sm font-black text-primary">$12.50 <span className="text-[9px] text-slate-400 font-medium line-through">$142</span></span>
+              <div className="flex justify-between items-center mb-4">
+                <span className="text-[10px] font-black tracking-wider text-slate-500 uppercase">
+                  JONASRX COMPANION
+                </span>
+                <span className="bg-[#FFE600] text-black text-[10px] font-black px-2 py-0.5 rounded flex items-center gap-0.5">
+                  ★ New
+                </span>
+              </div>
+              <h3 className="text-xl font-extrabold text-slate-900 tracking-tight leading-tight max-w-[200px]">
+                200+ free medications
+              </h3>
+              <p className="text-[13px] text-slate-600 mt-2 max-w-[220px] leading-snug">
+                Plus deep discounts on dental, vision, labs, imaging, and online care. All for $14.99/month.
+              </p>
             </div>
-          </motion.div>
+            
+            <div className="mt-4 relative z-10">
+              <button 
+                onClick={() => navigate('/companion')}
+                className="w-full bg-black hover:bg-slate-900 text-white font-bold text-xs py-3 rounded-full transition-colors flex items-center justify-center gap-1.5"
+              >
+                <span>Start your free trial</span>
+                <ArrowRight size={14} />
+              </button>
+            </div>
 
-          {/* Floating Premium Price Card Badge 2 */}
-          <motion.div 
-            animate={{ y: [0, 12, 0] }}
-            transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
-            className="absolute bottom-12 right-0 md:-right-8 bg-white border border-slate-100 shadow-2xl p-3.5 rounded-2xl flex items-center gap-3 w-48 text-left"
-          >
-            <div className="w-9 h-9 rounded-xl bg-success/10 text-success flex items-center justify-center shrink-0"><Sparkles size={18} /></div>
-            <div>
-              <span className="block text-[11px] font-bold text-slate-500">Average Savings</span>
-              <span className="block font-mono text-base font-black text-success">Save 80%</span>
-            </div>
-          </motion.div>
+            {/* Abstract Decorative Profile Overlay Shape mimicking background vectors */}
+            <div className="absolute right-0 bottom-0 w-28 h-28 bg-[#FFF9CC] rounded-tl-full opacity-40 pointer-events-none -z-0"></div>
+          </div>
 
         </div>
+
       </div>
     </section>
   );

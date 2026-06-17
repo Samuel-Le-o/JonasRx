@@ -17,16 +17,16 @@ export default function Home() {
       <Hero />
       
       {/* Section 2: Corporate Trust Ledger System Matrix */}
-      <TrustStats />
+      {/* <TrustStats /> */}
 
       {/* Section 3: Step-by-Step Patient Operational Flow */}
-      <HowItWorks />
+      {/* <HowItWorks /> */}
 
       {/* Section 4: Grid Matrix Coupon Offer Cards */}
       <FeaturedSavings />
 
       {/* Section 5: Real-time Pharmacy Cost Comparison Table Matrix */}
-      <PharmacyComparison />
+      {/* <PharmacyComparison /> */}
 
       {/* Section 6: Telehealth Virtual Consultation Grid Options */}
       <TelehealthServices />
@@ -38,7 +38,7 @@ export default function Home() {
       <MembershipPromotion />
 
       {/* Section 9: Verified Social Proof Testimonials Grid Matrix */}
-      <Testimonials />
+      {/* <Testimonials /> */}
 
       {/* Section 10: Final Trust Engagement Newsletter Form Capture */}
       <Newsletter />
