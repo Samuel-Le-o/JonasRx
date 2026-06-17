@@ -40,9 +40,9 @@ export default function Hero() {
         
         {/* Left Informational Core Input Content Section */}
         <div className="lg:col-span-7 space-y-6 z-10">
-          <div className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 text-primary px-4 py-1.5 rounded-full text-xs font-bold tracking-wide uppercase">
+          {/* <div className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 text-primary px-4 py-1.5 rounded-full text-xs font-bold tracking-wide uppercase">
             <Sparkles size={12} /> Smart Healthcare Search Platform
-          </div>
+          </div> */}
           
           <h1 className="text-4xl sm:text-5xl lg:text-[54px] font-bold text-navy leading-[1.1] font-serif tracking-tight">
             Compare Prescription Prices & <span className="text-primary font-sans font-extrabold">Save Up to 80%</span>
